@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Generic ETW Analyzer — data extraction engine for all analysis types.
 .DESCRIPTION

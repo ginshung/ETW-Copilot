@@ -290,8 +290,8 @@ function Format-Exercise3ReportOutSection {
         [void]$sb.AppendLine((New-TableRow @('Metric', 'Observed Value', 'Assessment')))
         [void]$sb.AppendLine("|--------|----------------|------------|")
         [void]$sb.AppendLine((New-TableRow @('Dominant resume phase', "$($e3.TopResumePhase)", 'Candidate critical path')))
-        [void]$sb.AppendLine((New-TableRow @('Dominant resume duration', "$($e3.TopResumeMs) ms ($($e3.TopResumeSec)s)", if ($e3.TopResumeSec -ge 10) { "$($script:IconRed) Excessive" } else { "$($script:IconYellow) Review" } )))
-        [void]$sb.AppendLine((New-TableRow @('Driver/wait signals', "$($e3.WaitSignalCount)", if ($e3.WaitSignalCount -gt 0) { "$($script:IconRed) Correlated" } else { "$($script:IconYellow) Not explicit" } )))
+        [void]$sb.AppendLine((New-TableRow @('Dominant resume duration', "$($e3.TopResumeMs) ms ($($e3.TopResumeSec)s)", $(if ($e3.TopResumeSec -ge 10) { "$($script:IconRed) Excessive" } else { "$($script:IconYellow) Review" }) )))
+        [void]$sb.AppendLine((New-TableRow @('Driver/wait signals', "$($e3.WaitSignalCount)", $(if ($e3.WaitSignalCount -gt 0) { "$($script:IconRed) Correlated" } else { "$($script:IconYellow) Not explicit" }) )))
         [void]$sb.AppendLine("")
 
         [void]$sb.AppendLine("#### Step 2 - Decompose and demonstrate each part")
@@ -308,7 +308,7 @@ function Format-Exercise3ReportOutSection {
         [void]$sb.AppendLine((New-TableRow @('Evidence Type', 'Correlation')))
         [void]$sb.AppendLine("|--------------|-------------|")
         [void]$sb.AppendLine((New-TableRow @('Waits (s) dominance', 'Primary contributor to end-to-end delay')))
-        [void]$sb.AppendLine((New-TableRow @('Driver/system findings', if ($e3.WaitSignalCount -gt 0) { 'Timestamp-aligned with wait window' } else { 'No explicit driver signal captured' } )))
+        [void]$sb.AppendLine((New-TableRow @('Driver/system findings', $(if ($e3.WaitSignalCount -gt 0) { 'Timestamp-aligned with wait window' } else { 'No explicit driver signal captured' }) )))
         [void]$sb.AppendLine("")
 
         [void]$sb.AppendLine("> **Actionable bottleneck statement:** This trace is wait-dominated on the critical path. Prioritize root-cause analysis on the longest Waits(s) segment and its timestamp-aligned driver/system events.")
@@ -318,7 +318,7 @@ function Format-Exercise3ReportOutSection {
         [void]$sb.AppendLine((New-TableRow @('Check', 'Result')))
         [void]$sb.AppendLine("|-------|--------|")
         [void]$sb.AppendLine((New-TableRow @('Critical-path wait bottleneck', "$($script:IconGreen) Not detected in this trace")))
-        [void]$sb.AppendLine((New-TableRow @('Longest resume-related phase', if ($e3.TopResumeSec -gt 0) { "$($e3.TopResumeSec)s ($($e3.TopResumePhase))" } else { 'N/A' } )))
+        [void]$sb.AppendLine((New-TableRow @('Longest resume-related phase', $(if ($e3.TopResumeSec -gt 0) { "$($e3.TopResumeSec)s ($($e3.TopResumePhase))" } else { 'N/A' }) )))
         [void]$sb.AppendLine("")
         [void]$sb.AppendLine("> Exercise 3 workflow was applied, but no severe wait-dominated bottleneck was identified in this report output.")
         [void]$sb.AppendLine("")
@@ -333,7 +333,7 @@ function Format-Exercise3ReportOutSection {
     [void]$sb.AppendLine("|----------|----------|---------------------------|")
     [void]$sb.AppendLine((New-TableRow @(
         'Threshold-driven escalation (config/thresholds.json + analyzer threshold findings)',
-        if ($e2.NeedExercise2) { "$($script:IconRed) Run Exercise 2" } else { "$($script:IconGreen) Optional" },
+        $(if ($e2.NeedExercise2) { "$($script:IconRed) Run Exercise 2" } else { "$($script:IconGreen) Optional" }),
         'Regions of Interest, CPU Usage (Sampled), Disk Usage, Generic Events (only when directly tied to the critical issue)'
     )))
     [void]$sb.AppendLine("")

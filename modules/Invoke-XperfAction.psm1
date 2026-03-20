@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Wraps xperf.exe -a (action) commands for quick ETW trace analysis.
 .DESCRIPTION

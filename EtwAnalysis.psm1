@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     ETW Auto-Analysis Toolset - Root Module
 .DESCRIPTION

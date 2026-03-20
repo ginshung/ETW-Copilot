@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Detects ETW trace type and metadata using lightweight heuristics.
 .DESCRIPTION

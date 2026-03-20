@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Parses CSV files exported by wpaexporter into PowerShell objects.
 .DESCRIPTION

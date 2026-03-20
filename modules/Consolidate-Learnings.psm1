@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Consolidates analysis learnings back into the knowledge base after each investigation.
 .DESCRIPTION
@@ -248,7 +248,7 @@ function Consolidate-Learnings {
                             description    = $finding.Message
                             severity       = $finding.Severity
                             recommendation = "Identified during auto-analysis on $dateStamp. Investigate $($driverMatch.Value) behavior in this context."
-                            source         = "auto-discovery:$etlName:$dateStamp"
+                            source         = "auto-discovery:${etlName}:${dateStamp}"
                         }
                         $existingIds += $candidateId
                     }
