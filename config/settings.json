@@ -1,0 +1,16 @@
+{
+  "WptPath": "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit",
+  "WpaExporterExe": "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\wpaexporter.exe",
+  "XperfExe": "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\xperf.exe",
+  "WprExe": "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\wpr.exe",
+  "WpaExe": "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\wpa.exe",
+  "CatalogPath": "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\Catalog",
+  "SymbolPath": "srv*C:\\SymCache*https://msdl.microsoft.com/download/symbols;srv*C:\\Symbols*http://symbols.intel.com/SymProxy",
+  "DefaultOutputDir": "",
+  "DefaultFormat": "CSV",
+  "Proxy": {
+    "HttpProxy": "http://proxy-dmz.intel.com:912",
+    "HttpsProxy": "http://proxy-dmz.intel.com:912",
+    "NoProxy": ".intel.com,intel.com,localhost,127.0.0.1"
+  }
+}

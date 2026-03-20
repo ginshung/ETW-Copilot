@@ -1,0 +1,126 @@
+{
+  "patterns": [
+    {
+      "id": "killer-be200-modern-standby",
+      "category": "ModernStandby",
+      "pattern": "Netwaw16|netwaw16\\.sys|KillerNetworkService|KNDBWMService|KillerAnalytics|BE200|BE1750x|killer.*wifi.*7|wifi.*7.*killer",
+      "description": "Intel Killer Wi-Fi 7 BE200NGW (service: Netwaw16) fails PDC power-down callback during Modern Standby, blocking PCIe RP DRIPS entry. Causes instant CS exit (<100ms) + SCM 7021/7003 service failures on wake.",
+      "severity": "Critical",
+      "affected_devices": "Intel BE200 (VEN_8086&DEV_272B), Wi-Fi 7 BE1750x 320MHz",
+      "affected_platform": "Intel Arrow Lake (Core Ultra 200K/H/U) + Windows 11 24H2/26100",
+      "symptoms": [
+        "Sleep Study Session Duration < 100ms with ExitReason='Transition To Sleep'",
+        "SCM Event ID 7021 (Netwaw16 start timeout) on wake",
+        "SCM Event ID 7003 (Netwaw16 dependency failure) on wake",
+        "PCIe RP at _SB.PC02.RP03 appears in TopBlockers at >1% active time",
+        "WLAN-AutoConfig IDs 11004/11010/11005 repeating every 3-4 minutes",
+        "DripsHistogram capped at 4m/8m (no longer epochs)"
+      ],
+      "recommendation": "Update Killer Wi-Fi 7 BE200NGW driver to latest via Intel Driver & Support Assistant. Disable Rivet Networks background services (KNDBWMService, KillerAnalyticsService, KillerNetworkService) if not required. Verify PCIe ASPM (CLx L1.1/L1.2) enabled in BIOS for WiFi root port. Disable Remote Desktop if not needed (RemoteDesktopEnabled=true prevents WiFi D3-Cold). Check AP GTK rotation interval (increase to >=3600s to reduce WPA3 reauthentication frequency)."
+    },
+    {
+      "id": "av-filter-driver",
+      "category": "Driver",
+      "pattern": "flt.*\\.sys|avast|avg|norton|mcafee|kasper|eset|sophos|bitdefender|webroot|malware|defend",
+      "description": "Antivirus filter driver causing I/O delays",
+      "severity": "Warning",
+      "recommendation": "Antivirus filter drivers are a common source of boot delays and I/O latency. Check if the AV product has an optimized boot mode or consider updating to the latest version."
+    },
+    {
+      "id": "oem-bloatware-service",
+      "category": "Boot",
+      "pattern": "updater.*svc|toolbar|helper.*service|tray.*app|agent.*svc",
+      "description": "OEM preloaded software delaying boot",
+      "severity": "Warning",
+      "recommendation": "OEM preloaded services can significantly delay boot. Consider disabling auto-start for non-essential OEM services or setting them to delayed start."
+    },
+    {
+      "id": "high-dpc-network",
+      "category": "Driver",
+      "pattern": "ndis\\.sys|tcpip\\.sys|e1[cdgi]\\d+\\.sys|rt\\w+\\.sys|ath\\w+\\.sys|bcm\\w+\\.sys",
+      "description": "Network driver with high DPC activity",
+      "severity": "Warning",
+      "recommendation": "Network drivers with high DPC counts can cause audio glitching and UI stuttering. Update the network driver or check interrupt moderation settings."
+    },
+    {
+      "id": "storage-driver-flush",
+      "category": "DiskIO",
+      "pattern": "stor\\w+\\.sys|ataport\\.sys|msahci\\.sys|iaStorA|nvme",
+      "description": "Storage driver contributing to high flush counts",
+      "severity": "Warning",
+      "recommendation": "Excessive disk flushing during boot increases boot time. Check if the storage driver firmware needs updating or if write caching can be enabled."
+    },
+    {
+      "id": "registry-hive-flush",
+      "category": "Boot",
+      "pattern": "HvSyncHive|CmpFlushHive|NtFlushKey|ZwFlushKey",
+      "description": "Excessive registry hive flushing during boot",
+      "severity": "Warning",
+      "recommendation": "Registry hive flush storms during boot indicate poorly timed registry operations. Applications should defer registry writes until after the boot critical path."
+    },
+    {
+      "id": "superfetch-prefetch",
+      "category": "Memory",
+      "pattern": "SysMain|sysmain\\.dll|superfetch",
+      "description": "Superfetch/SysMain memory prefetching activity",
+      "severity": "Info",
+      "recommendation": "SysMain (Superfetch) activity during boot is normal and helps with future boot performance. Only disable if it's causing excessive disk I/O on slow storage."
+    },
+    {
+      "id": "windows-update",
+      "category": "Boot",
+      "pattern": "wuauserv|TrustedInstaller|msiexec|TiWorker",
+      "description": "Windows Update activity during boot",
+      "severity": "Warning",
+      "recommendation": "Windows Update operations during boot/login significantly increase boot time. This is typically temporary after receiving updates."
+    },
+    {
+      "id": "gpu-driver-init",
+      "category": "Driver",
+      "pattern": "nvlddmkm\\.sys|atikmpag\\.sys|igdkmd\\d+\\.sys|dxgkrnl\\.sys",
+      "description": "GPU driver initialization taking long",
+      "severity": "Warning",
+      "recommendation": "GPU driver initialization time affects time-to-desktop. Ensure the latest GPU driver is installed. For Intel iGPU, check GOP (Graphics Output Protocol) BIOS settings."
+    },
+    {
+      "id": "slow-service-start",
+      "category": "Boot",
+      "pattern": "services\\.exe.*delay|svchost.*start|ServiceMain",
+      "description": "Slow service startup detected",
+      "severity": "Warning",
+      "recommendation": "Services taking >5 seconds to start should be reviewed. Consider converting from Automatic to Automatic (Delayed Start) or Demand for non-critical services."
+    },
+    {
+      "id": "ntfs-metadata",
+      "category": "DiskIO",
+      "pattern": "Ntfs.*Metadata|\\$MFT|\\$LogFile|\\$Bitmap",
+      "description": "NTFS metadata operations during boot",
+      "severity": "Info",
+      "recommendation": "High NTFS metadata I/O can indicate a fragmented or very full disk. Check disk fragmentation levels and ensure at least 15% free space."
+    },
+    {
+      "id": "pdc-activator-v1-unknown",
+      "category": "ModernStandby",
+      "pattern": "V1_018|V1_Unknown|PDC.*activator.*unknown|4294967295",
+      "description": "Unknown PDC activator V1_018 with infinite timeout blocking CS exit",
+      "severity": "Critical",
+      "recommendation": "An unidentified PDC activator (V1_018 'V1_Unknown') with infinite timeout (0xFFFFFFFF) can block Connected Standby exit. Use 'powercfg /sleepstudy' and kernel debugger '!podev' to identify the owning driver. Common on Lenovo ThinkPad with Intel Alder Lake."
+    },
+    {
+      "id": "lid-wake-stall-pcie-rp",
+      "category": "ModernStandby",
+      "pattern": "DEV_64A0|LID.*wake|_Q51|BusScan.*False|lid.*resume",
+      "description": "LID open wake causes PCIe Root Port D-state stall on Alder Lake",
+      "severity": "Critical",
+      "recommendation": "LID open wake via ACPI _Q51 triggers the full PDC/CS exit path (unlike power button which bypasses PDC). Intel PCIe Root Port DEV_64A0 (Alder Lake) can stall during D0 entry on LID wake. Update BIOS/EC firmware and Intel chipset driver. Test with EnablePowerButtonSuppression=0."
+    },
+    {
+      "id": "power-button-suppression",
+      "category": "ModernStandby",
+      "pattern": "EnablePowerButtonSuppression|EnableInputSuppression|button.*suppress",
+      "description": "Power button suppression enabled during Modern Standby",
+      "severity": "Warning",
+      "recommendation": "EnablePowerButtonSuppression=1 suppresses power button events during Connected Standby. If LID wake is failing, the user cannot recover via power button. Set to 0 for debugging: reg add HKLM\\SYSTEM\\CurrentControlSet\\Control\\Power /v EnablePowerButtonSuppression /t REG_DWORD /d 0 /f"
+    }
+  ]
+}

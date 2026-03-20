@@ -1,0 +1,33 @@
+<WpaProfile xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" SavedWith="6.3.9600.16422" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell">
+  <WpaProfile.UISessions>
+    <UISessionProperties Index="0" />
+  </WpaProfile.UISessions>
+  <WpaProfile.Views>
+    <AnalysisView Name="dpcisr-export" IsVisible="True" xmlns="clr-namespace:Microsoft.Performance.Shell.Graphing;assembly=Microsoft.Performance.Shell">
+      <AnalysisView.Title>
+        <ViewTitle Title="DPC ISR Export" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell" />
+      </AnalysisView.Title>
+      <AnalysisView.UISessionRef>
+        <UISessionRef Index="0" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell" />
+      </AnalysisView.UISessionRef>
+      <Core4SummaryTableFillerGraphTreeItem LayoutStyleFree="All" Color="#FF005DE0" ClsID="{0e458915-1a3a-4837-8725-4ef4293d1941}" xmlns="clr-namespace:Microsoft.Performance.Shell.Tables;assembly=Microsoft.Performance.Shell">
+        <Core4SummaryTableFillerGraphTreeItem.HdvViewModelPreset>
+          <HdvViewModelPreset Name="DPC Duration by Module" GraphColumnCount="8" KeyColumnCount="3" LeftFrozenColumnCount="4" RightFrozenColumnCount="7" InitialFilterQuery="" InitialSelectionQuery="" xmlns="clr-namespace:Microsoft.Performance.UI.DataEngine.ViewModelPresets;assembly=Microsoft.Performance.UI.DataEngine">
+            <HdvViewModelPreset.ColumnMetadataEntries />
+            <HdvViewModelPreset.HighlightEntries />
+            <HdvViewModelPreset.ConfigurableColumns>
+              <HdvColumnViewModelPreset Guid="b065487c-5e32-5dbd-637c-68a8ebe9057a" Name="Module" IsVisible="True" SortPriority="1" Width="200" />
+              <HdvColumnViewModelPreset Guid="d9cd12b9-e382-56df-8f50-2c3742bd93de" Name="Function" IsVisible="True" SortPriority="2" Width="250" />
+              <HdvColumnViewModelPreset Guid="3a07de0d-a117-527d-5f9c-e8ec79b44213" Name="Type" IsVisible="True" SortPriority="3" Width="60" />
+              <HdvColumnViewModelPreset Guid="d0028ea0-aa66-5cce-7192-fb5e193c63ec" Name="Count" AggregationMode="Sum" IsVisible="True" SortPriority="4" TextAlignment="Right" Width="80" />
+              <HdvColumnViewModelPreset Guid="ec1f347e-deed-5a80-8c70-7f4cb1d4d4e0" Name="Total Duration (us)" AggregationMode="Sum" IsVisible="True" SortOrder="Descending" TextAlignment="Right" Width="120" />
+              <HdvColumnViewModelPreset Guid="b9e5e33d-d875-4fb2-b4f9-7e9d14d8d370" Name="Max Duration (us)" AggregationMode="Max" IsVisible="True" SortPriority="5" TextAlignment="Right" Width="120" />
+              <HdvColumnViewModelPreset Guid="ab54241e-ce5d-5e3f-6426-4a4bac4e7cb4" Name="Avg Duration (us)" AggregationMode="Average" IsVisible="True" SortPriority="6" TextAlignment="Right" Width="120" />
+              <HdvColumnViewModelPreset Guid="a7b407b5-2e77-59d0-a04b-c3eac4bb5d6e" Name="Min Duration (us)" AggregationMode="Min" IsVisible="True" SortPriority="7" TextAlignment="Right" Width="120" />
+            </HdvViewModelPreset.ConfigurableColumns>
+          </HdvViewModelPreset>
+        </Core4SummaryTableFillerGraphTreeItem.HdvViewModelPreset>
+      </Core4SummaryTableFillerGraphTreeItem>
+    </AnalysisView>
+  </WpaProfile.Views>
+</WpaProfile>

@@ -1,0 +1,38 @@
+<WpaProfile xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" SavedWith="6.3.9600.16422" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell">
+  <WpaProfile.UISessions>
+    <UISessionProperties Index="0" />
+  </WpaProfile.UISessions>
+  <WpaProfile.Views>
+    <AnalysisView Name="generic-events-export" IsVisible="True" xmlns="clr-namespace:Microsoft.Performance.Shell.Graphing;assembly=Microsoft.Performance.Shell">
+      <AnalysisView.Title>
+        <ViewTitle Title="Generic Events Export" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell" />
+      </AnalysisView.Title>
+      <AnalysisView.UISessionRef>
+        <UISessionRef Index="0" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell" />
+      </AnalysisView.UISessionRef>
+      <GenericEventsGraphTreeItem LayoutStyleFree="All" Color="#FF005DE0" xmlns="clr-namespace:Microsoft.Performance.Shell.Tables;assembly=Microsoft.Performance.Shell">
+        <GenericEventsGraphTreeItem.HdvViewModelPreset>
+          <HdvViewModelPreset Name="Generic Events by Provider" GraphColumnCount="10" KeyColumnCount="5" LeftFrozenColumnCount="6" RightFrozenColumnCount="9" InitialFilterQuery="" InitialSelectionQuery="" xmlns="clr-namespace:Microsoft.Performance.UI.DataEngine.ViewModelPresets;assembly=Microsoft.Performance.UI.DataEngine">
+            <HdvViewModelPreset.ColumnMetadataEntries>
+              <ColumnMetadataEntry Guid="bbfc990a-b6c9-4dcd-858b-f040ab4a1efe" Name="Time" ColumnMetadata="StartTime" />
+              <ColumnMetadataEntry Guid="bbfc990a-b6c9-4dcd-858b-f040ab4a1efe" Name="Time" ColumnMetadata="EndTime" />
+            </HdvViewModelPreset.ColumnMetadataEntries>
+            <HdvViewModelPreset.HighlightEntries />
+            <HdvViewModelPreset.ConfigurableColumns>
+              <HdvColumnViewModelPreset Guid="8b4c40f8-0d99-437d-86ab-56ec200137dc" Name="Provider Name" IsVisible="True" SortPriority="1" Width="200" />
+              <HdvColumnViewModelPreset Guid="511777f7-30ef-4b97-8ca4-16258b6a59c8" Name="Task Name" IsVisible="True" SortPriority="2" Width="150" />
+              <HdvColumnViewModelPreset Guid="5b51716b-b88f-443a-a396-c6316f08caa3" Name="Opcode Name" IsVisible="True" SortPriority="3" Width="100" />
+              <HdvColumnViewModelPreset Guid="c72e1c5a-f6db-4c84-8c0b-85989e514075" Name="Process Name" IsVisible="True" SortPriority="4" Width="150" />
+              <HdvColumnViewModelPreset Guid="edf01e5d-3644-4dbc-ab9d-f8954e6db6ea" Name="ThreadId" IsVisible="True" SortPriority="5" TextAlignment="Right" Width="80" />
+              <HdvColumnViewModelPreset Guid="d0028ea0-aa66-5cce-7192-fb5e193c63ec" Name="Count" AggregationMode="Sum" IsVisible="True" SortOrder="Descending" TextAlignment="Right" Width="80" />
+              <HdvColumnViewModelPreset Guid="ec1f347e-deed-5a80-8c70-7f4cb1d4d4e0" Name="Field 1" IsVisible="True" SortPriority="6" Width="200" />
+              <HdvColumnViewModelPreset Guid="d9cd12b9-e382-56df-8f50-2c3742bd93de" Name="Field 2" IsVisible="True" SortPriority="7" Width="200" />
+              <HdvColumnViewModelPreset Guid="ab54241e-ce5d-5e3f-6426-4a4bac4e7cb4" Name="Field 3" IsVisible="True" SortPriority="8" Width="200" />
+              <HdvColumnViewModelPreset Guid="bbfc990a-b6c9-4dcd-858b-f040ab4a1efe" Name="Time" AggregationMode="Min" IsVisible="True" SortPriority="9" TextAlignment="Right" Width="120" />
+            </HdvViewModelPreset.ConfigurableColumns>
+          </HdvViewModelPreset>
+        </GenericEventsGraphTreeItem.HdvViewModelPreset>
+      </GenericEventsGraphTreeItem>
+    </AnalysisView>
+  </WpaProfile.Views>
+</WpaProfile>

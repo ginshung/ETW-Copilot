@@ -1,0 +1,33 @@
+<WpaProfile xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" SavedWith="6.3.9600.16422" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell">
+  <WpaProfile.UISessions>
+    <UISessionProperties Index="0" />
+  </WpaProfile.UISessions>
+  <WpaProfile.Views>
+    <AnalysisView Name="diskio-export" IsVisible="True" xmlns="clr-namespace:Microsoft.Performance.Shell.Graphing;assembly=Microsoft.Performance.Shell">
+      <AnalysisView.Title>
+        <ViewTitle Title="Disk IO Export" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell" />
+      </AnalysisView.Title>
+      <AnalysisView.UISessionRef>
+        <UISessionRef Index="0" xmlns="clr-namespace:Microsoft.Performance.Shell;assembly=Microsoft.Performance.Shell" />
+      </AnalysisView.UISessionRef>
+      <Core4SummaryTableFillerGraphTreeItem LayoutStyleFree="All" Color="#FF005DE0" ClsID="{a02a3e35-5006-4c97-afee-3efd4deab944}" xmlns="clr-namespace:Microsoft.Performance.Shell.Tables;assembly=Microsoft.Performance.Shell">
+        <Core4SummaryTableFillerGraphTreeItem.HdvViewModelPreset>
+          <HdvViewModelPreset Name="Disk IO by Process, File" GraphColumnCount="8" KeyColumnCount="4" LeftFrozenColumnCount="5" RightFrozenColumnCount="7" InitialFilterQuery="" InitialSelectionQuery="" xmlns="clr-namespace:Microsoft.Performance.UI.DataEngine.ViewModelPresets;assembly=Microsoft.Performance.UI.DataEngine">
+            <HdvViewModelPreset.ColumnMetadataEntries />
+            <HdvViewModelPreset.HighlightEntries />
+            <HdvViewModelPreset.ConfigurableColumns>
+              <HdvColumnViewModelPreset Guid="01a82084-036b-5f1d-ee14-a1e727b1f847" Name="Process Name" IsVisible="True" SortPriority="1" Width="200" />
+              <HdvColumnViewModelPreset Guid="a026c5ce-1efd-5e75-5e5e-1d0e35e2beee" Name="Process" IsVisible="True" SortPriority="2" Width="200" />
+              <HdvColumnViewModelPreset Guid="3a07de0d-a117-527d-5f9c-e8ec79b44213" Name="IO Type" IsVisible="True" SortPriority="3" Width="80" />
+              <HdvColumnViewModelPreset Guid="28c31039-bec4-5ad7-ef53-b764ca8bd2d4" Name="Path Name" IsVisible="True" SortPriority="4" Width="300" />
+              <HdvColumnViewModelPreset Guid="ec1f347e-deed-5a80-8c70-7f4cb1d4d4e0" Name="Size" AggregationMode="Sum" IsVisible="True" SortOrder="Descending" TextAlignment="Right" Width="100" />
+              <HdvColumnViewModelPreset Guid="d9cd12b9-e382-56df-8f50-2c3742bd93de" Name="Duration" AggregationMode="Sum" IsVisible="True" SortPriority="5" TextAlignment="Right" Width="100" />
+              <HdvColumnViewModelPreset Guid="d0028ea0-aa66-5cce-7192-fb5e193c63ec" Name="Count" AggregationMode="Sum" IsVisible="True" SortPriority="6" TextAlignment="Right" Width="80" />
+              <HdvColumnViewModelPreset Guid="b9e5e33d-d875-4fb2-b4f9-7e9d14d8d370" Name="Priority" IsVisible="True" SortPriority="7" Width="80" />
+            </HdvViewModelPreset.ConfigurableColumns>
+          </HdvViewModelPreset>
+        </Core4SummaryTableFillerGraphTreeItem.HdvViewModelPreset>
+      </Core4SummaryTableFillerGraphTreeItem>
+    </AnalysisView>
+  </WpaProfile.Views>
+</WpaProfile>
