@@ -108,14 +108,63 @@ Write-Host ""
 # ════════════════════════════════════════════════
 Write-Host "[2/4] Selecting analyzers..." -ForegroundColor Yellow
 
-$analyzerMap = @{
-    'FastStartup'       = 'Analyze-FastStartup.ps1'
-    'Cpu'               = 'Analyze-CpuPerformance.ps1'
-    'DiskIO'            = 'Analyze-DiskIO.ps1'
-    'Driver'            = 'Analyze-Drivers.ps1'
-    'AppResponsiveness' = 'Analyze-AppResponsiveness.ps1'
-    'Memory'            = 'Analyze-Memory.ps1'
-    'ModernStandby'     = 'Analyze-ModernStandby.ps1'
+$analyzerConfigs = @{
+    'FastStartup' = @{
+        XperfAction      = 'boot'
+        WpaProfile       = 'FastStartup'
+        Prefix           = 'FS_'
+        AnalyzerName     = 'Fast Startup / Boot Analysis'
+        MetricName       = 'CPU Weight (ms)'
+        ThresholdSection = 'FastStartup'
+    }
+    'Cpu' = @{
+        WpaProfile       = 'CpuSampling-Export'
+        Prefix           = 'CPU_'
+        AnalyzerName     = 'CPU Performance Analysis'
+        MetricName       = 'CPU Weight (ms)'
+        ThresholdSection = 'Cpu'
+    }
+    'DiskIO' = @{
+        XperfAction      = 'diskio'
+        WpaProfile       = 'DiskIO-Export'
+        Prefix           = 'DIO_'
+        AnalyzerName     = 'Disk I/O Analysis'
+        MetricName       = 'I/O Size (bytes)'
+        ThresholdSection = 'DiskIO'
+    }
+    'Driver' = @{
+        XperfAction      = 'dpcisr'
+        WpaProfile       = 'DpcIsr-Export'
+        Prefix           = 'DRV_'
+        AnalyzerName     = 'Driver / DPC / ISR Analysis'
+        MetricName       = 'Duration (us)'
+        ThresholdSection = 'Driver'
+    }
+    'AppResponsiveness' = @{
+        WpaProfile         = 'AppLaunch'
+        WpaProfileFallbacks = @('HtmlResponsivenessAnalysis','XamlAppResponsivenessAnalysis')
+        Prefix             = 'AppResp_'
+        AnalyzerName       = 'App Responsiveness Analysis'
+        MetricName         = 'Duration (ms)'
+        ThresholdSection   = 'AppResponsiveness'
+    }
+    'Memory' = @{
+        XperfAction        = 'hardfault'
+        WpaProfile         = 'Memory-Export'
+        WpaProfileFallbacks = @('WindowsStoreAppMemoryAnalysis')
+        Prefix             = 'Memory_'
+        AnalyzerName       = 'Memory Analysis'
+        MetricName         = 'Hard Faults / Working Set'
+        ThresholdSection   = 'Memory'
+    }
+    'ModernStandby' = @{
+        WpaProfile         = 'Standby'
+        WpaProfileFallbacks = @('Hibernate')
+        Prefix             = 'Standby_'
+        AnalyzerName       = 'Modern Standby / Connected Standby Analysis'
+        MetricName         = 'Active Time'
+        ThresholdSection   = 'ModernStandby'
+    }
 }
 
 $analyzersToRun = @()
@@ -125,7 +174,7 @@ if ($AnalysisType -eq 'Auto') {
     Write-Host "  Auto-detected: $($analyzersToRun -join ', ')" -ForegroundColor Gray
 }
 elseif ($AnalysisType -eq 'All') {
-    $analyzersToRun = $analyzerMap.Keys
+    $analyzersToRun = $analyzerConfigs.Keys
     Write-Host "  Running all analyzers" -ForegroundColor Gray
 }
 else {
@@ -143,35 +192,46 @@ Write-Host ""
 
 $analysisResults = @()
 $analyzerIndex = 0
+$genericScript = Join-Path $scriptRoot 'analyzers\Invoke-GenericAnalyzer.ps1'
 
 foreach ($analyzerName in $analyzersToRun) {
     $analyzerIndex++
-    $scriptName = $analyzerMap[$analyzerName]
+    $cfg = $analyzerConfigs[$analyzerName]
 
-    if (-not $scriptName) {
+    if (-not $cfg) {
         Write-Host "  Unknown analyzer: $analyzerName" -ForegroundColor Red
         continue
     }
 
-    $scriptPath = Join-Path $scriptRoot "analyzers\$scriptName"
-
-    if (-not (Test-Path $scriptPath)) {
-        Write-Host "  Analyzer script not found: $scriptPath" -ForegroundColor Red
+    if (-not (Test-Path $genericScript)) {
+        Write-Host "  Generic analyzer script not found: $genericScript" -ForegroundColor Red
         continue
     }
 
-    Write-Host "  [$analyzerIndex/$($analyzersToRun.Count)] Running $analyzerName..." -ForegroundColor White
+    Write-Host "  [$analyzerIndex/$($analyzersToRun.Count)] Running $($cfg.AnalyzerName)..." -ForegroundColor White
 
     try {
-        $analyzerResult = & $scriptPath -EtlPath $EtlPath -OutputFolder $OutputPath
+        $params = @{
+            EtlPath       = $EtlPath
+            OutputFolder  = $OutputPath
+            AnalyzerName  = $cfg.AnalyzerName
+            WpaProfile    = $cfg.WpaProfile
+            Prefix        = $cfg.Prefix
+            MetricName    = $cfg.MetricName
+        }
+        if ($cfg.XperfAction)        { $params['XperfAction']        = $cfg.XperfAction }
+        if ($cfg.WpaProfileFallbacks) { $params['WpaProfileFallbacks'] = $cfg.WpaProfileFallbacks }
+        if ($cfg.ThresholdSection)    { $params['ApplyThresholds']    = @{ ThresholdSection = $cfg.ThresholdSection } }
+
+        $analyzerResult = & $genericScript @params
         if ($analyzerResult) {
             $analysisResults += $analyzerResult
         }
     }
     catch {
-        Write-Host "  ERROR in $analyzerName : $_" -ForegroundColor Red
+        Write-Host "  ERROR in $($cfg.AnalyzerName) : $_" -ForegroundColor Red
         $analysisResults += [PSCustomObject]@{
-            AnalyzerName    = $analyzerName
+            AnalyzerName    = $cfg.AnalyzerName
             Summary         = "Analyzer failed with error: $_"
             Phases          = @()
             TopOffenders    = @()
@@ -179,7 +239,7 @@ foreach ($analyzerName in $analyzersToRun) {
             Findings        = @([PSCustomObject]@{
                 Severity = 'Warning'
                 Category = 'Analyzer Error'
-                Message  = "The $analyzerName analyzer encountered an error: $_"
+                Message  = "The $($cfg.AnalyzerName) analyzer encountered an error: $_"
             })
             Recommendations = @("Re-run with -Verbose for more details")
             CsvFiles        = @()

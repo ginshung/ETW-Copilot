@@ -30,17 +30,25 @@ When analyzing ETL files, you MUST follow the 5-phase investigation workflow def
 |------|----------|-------|
 | `Invoke-EtwAnalysis.ps1` | `./Invoke-EtwAnalysis.ps1` | Main entry: `.\Invoke-EtwAnalysis.ps1 -EtlPath "<file>.etl" -AnalysisType <type>` |
 | `EtwAnalysis.psm1` | `./EtwAnalysis.psm1` | Root module — auto-imported by Invoke-EtwAnalysis |
-| `Analyze-FastStartup.ps1` | `./analyzers/` | Boot/Fast Startup phase analysis |
-| `Analyze-CpuPerformance.ps1` | `./analyzers/` | CPU sampling & scheduling analysis |
-| `Analyze-DiskIO.ps1` | `./analyzers/` | Disk I/O throughput & latency analysis |
-| `Analyze-Drivers.ps1` | `./analyzers/` | Driver init, DPC/ISR, PnP analysis |
-| `Analyze-AppResponsiveness.ps1` | `./analyzers/` | UI delay, hang, and responsiveness analysis |
-| `Analyze-Memory.ps1` | `./analyzers/` | Memory usage, pool, working set analysis |
-| `Analyze-ModernStandby.ps1` | `./analyzers/` | Modern Standby / Connected Standby analysis |
+| `Invoke-GenericAnalyzer.ps1` | `./analyzers/` | Generic data extraction engine — replaces all individual analyzer scripts. Called by Invoke-EtwAnalysis with per-type configs (xperf action, WPA profile, prefix, thresholds). |
 | `Export-EtwData.psm1` | `./modules/` | wpaexporter wrapper (CSV export) |
 | `Invoke-XperfAction.psm1` | `./modules/` | xperf -a actions (boot, shutdown, dpcisr) |
 | `Format-Report.psm1` | `./modules/` | Markdown report generation |
 | `Consolidate-Learnings.psm1` | `./modules/` | Post-analysis knowledge consolidation (auto-called by Invoke-EtwAnalysis) |
+
+### 2.1.1 Analysis Strategy Instructions (`.github/instructions/`)
+
+VS Code Copilot auto-loads these based on task context keywords. Each file provides analysis-type-specific thresholds, interpretation guidance, and investigation flow.
+
+| File | Keywords | Covers |
+|------|----------|--------|
+| `fast-startup.instructions.md` | boot, fast startup, shutdown, hibernate, resume | Boot phase hierarchy, service/PnP timing, shutdown |
+| `cpu-performance.instructions.md` | CPU performance, sampling, scheduling, context switches | Hot functions, wait analysis, call stack interpretation |
+| `disk-io.instructions.md` | disk I/O, storage latency, throughput, flush counts | Disk latency, flush detection, storage stack |
+| `driver-analysis.instructions.md` | driver, DPC, ISR, PnP, USB4, Thunderbolt, WDF | DPC/ISR per-module, USB4 spec references |
+| `app-responsiveness.instructions.md` | app responsiveness, UI hangs, app launch, rendering | UI hang detection, app launch timing |
+| `memory-analysis.instructions.md` | memory, working set, hard faults, pool, heap, leak | Hard faults, working set, pool/commit analysis |
+| `modern-standby.instructions.md` | Modern Standby, DRIPS, sleep, power, wake sources | DRIPS residency, device power states, wake sources |
 
 ### 2.2 Windows Performance Toolkit (WPT)
 
