@@ -121,6 +121,25 @@
       "description": "Power button suppression enabled during Modern Standby",
       "severity": "Warning",
       "recommendation": "EnablePowerButtonSuppression=1 suppresses power button events during Connected Standby. If LID wake is failing, the user cannot recover via power button. Set to 0 for debugging: reg add HKLM\\SYSTEM\\CurrentControlSet\\Control\\Power /v EnablePowerButtonSuppression /t REG_DWORD /d 0 /f"
+    },
+    {
+      "id": "usb4-router-not-detected",
+      "category": "Driver",
+      "pattern": "usb4hrd\\.sys|usb4drd\\.sys|RouterDetected.*:.*0|AdapterState.*:.*7|WaitingForRouterConnect",
+      "description": "USB4 downstream router not detected on DFP — physical link training failed (AdapterState=7) or device electrically absent. PORT_CS_18.RouterDetected=0 and PORT_CS_1.AdapterState=7 (Training) indicate link never reached CL0 Active state. Repeated DomainPowerDown/wake cycles with no RouterDetected event confirms device was never present.",
+      "severity": "Critical",
+      "affected_devices": "Intel PTL/TDM1 USB4 Host Router (VEN_8086 DEV_E434), USB4 v2 Gen3 capable host",
+      "affected_platform": "Intel Panther Lake-U (PTL-U/H), ACPI TDM1; Acer platform (SubSys 0x203D/0x1025)",
+      "symptoms": [
+        "PORT_CS_18.RouterDetected=0 on DFP_1 throughout all D0 cycles",
+        "PORT_CS_1.AdapterState=7 (Training) — never transitions to 2 (CL0 Active)",
+        "BondingEnabled=0, RS_FEC_Gen3_Enabled=0, NegotiatedLinkWidth=1",
+        "5+ DomainPowerDown/RouterPoweredDown/FDOD0Entry cycles with no device",
+        "PSM state: IsRouterDetectedSet=No → WaitingForRouterConnect repeatedly",
+        "No PCIe/USB3/DP tunnel establishment events",
+        "Final usb4hrd log: 'No devices connected'"
+      ],
+      "recommendation": "1. Verify USB4 cable is fully seated at both ends (physical). 2. Check dock/device power LED. 3. Try alternate USB4 cable (Gen3 rated). 4. Test with different USB4 port on host. 5. Check BIOS ACPI power sequencing for TDM1 port (ACPI _PR0/_PR3 power resources). 6. If only seen after resume from sleep: check if D3Cold was properly exited for the host router (FDOD0Entry timeout). 7. Confirm USB4 policy EnableUSB4 is not disabled by group policy or registry."
     }
   ]
 }

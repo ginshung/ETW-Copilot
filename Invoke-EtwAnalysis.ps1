@@ -3,7 +3,7 @@
     ETW Auto-Analysis Toolset - Main Entry Point
 .DESCRIPTION
     Analyzes ETW trace files (.etl) and produces a structured Markdown report
-    identifying performance issues, root causes, and recommendations.
+    identifying performance issues, possible causes, and recommendations.
 
     Designed for use with VS Code Copilot via terminal execution.
 

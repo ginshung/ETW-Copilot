@@ -155,7 +155,7 @@ function Consolidate-Learnings {
         $logLines += ""
     }
 
-    $logLines += "### Phase 3 — Root Cause & Key Evidence"
+    $logLines += "### Phase 3 — Possible Cause & Key Evidence"
     $logLines += ""
 
     $criticalFindings = $allFindings | Where-Object { $_.Severity -eq 'Critical' }

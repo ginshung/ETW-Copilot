@@ -181,7 +181,7 @@ Copilot follows a systematic 5-phase workflow defined in `.github/copilot-instru
 
 1. **Phase 1 — Exploration**: Detect trace type, run initial automated analysis, form hypotheses
 2. **Phase 2 — Deep Investigation**: Iteratively follow clues, export targeted data, cross-reference known issues
-3. **Phase 3 — Root Cause**: Confirm root cause with evidence chain (timestamp → event → module → impact)
+3. **Phase 3 — Possible Cause**: Confirm possible cause with evidence chain (timestamp → event → module → impact)
 4. **Phase 4 — Investigation Log**: Produce a traceable investigation trail (`investigation_log.md`)
 5. **Phase 5 — Report**: Generate the structured 9-section analysis report
 
@@ -191,8 +191,8 @@ Every analysis produces a **9-section structured Markdown report**:
 
 | Section | Content |
 |---------|---------|
-| 1. ETL Summary | Problem, root cause, impact, recommended action |
-| 2. Root Cause | One-line root cause statement |
+| 1. ETL Summary | Problem, possible cause, impact, recommended action |
+| 2. Possible Cause | One-line possible cause statement |
 | 3. System Information | Machine, CPU, memory, OS, tool versions |
 | 4. Trace Information | ETL path, file size, trace type, detected providers |
 | 5. Analysis Details | Critical issues, WPA investigation, phase/service/device tables |

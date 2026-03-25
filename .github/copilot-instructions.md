@@ -128,11 +128,11 @@ WHILE root_cause_not_found:
 - **Call Stack Analysis**: Trace call chains to identify lock contention, disk reads, or blocking waits
 - **Disk/Memory Analysis**: Identify highest-latency file paths, top I/O processes, memory pressure
 
-### Phase 3: Root Cause Determination
+### Phase 3: Possible Cause Determination
 
-**Goal:** Confirm the root cause with supporting evidence.
+**Goal:** Confirm the possible cause with supporting evidence.
 
-1. **State the root cause** in one clear sentence.
+1. **State the possible cause** in one clear sentence.
 2. **Provide evidence chain**: Timestamp → Event → Module → Function → Impact.
 3. **Cross-reference** with USB4 spec, Windows internals, or driver documentation as applicable.
 4. **Assess severity**: Critical / Warning / Info.
@@ -171,8 +171,8 @@ Every analysis session MUST create or update `investigation_log.md` in the outpu
   - Evidence: <what was found>
   - Conclusion: <outcome>
 
-### [HH:MM] Phase 3 — Root Cause
-- **Root Cause**: <one-line statement>
+### [HH:MM] Phase 3 — Possible Cause
+- **Possible Cause**: <one-line statement>
 - **Evidence Chain**: <timestamp → event → module → impact>
 - **Severity**: <Critical/Warning/Info>
 
@@ -200,17 +200,17 @@ Every report MUST include these 9 sections in this exact order. All output in En
 | Item | Details |
 |------|---------|
 | **Problem** | <one-sentence problem statement> |
-| **Root Cause** | <one-sentence root cause> |
+| **Possible Cause** | <one-sentence possible cause> |
 | **Impact** | <scope and severity of impact> |
 | **Recommended Action** | <highest-priority action> |
 ```
 
-### Section 2: Root Cause (One-Line)
+### Section 2: Possible Cause (One-Line)
 
 ```markdown
-## 2. Root Cause (One-Line)
+## 2. Possible Cause (One-Line)
 
-> <Single blockquote sentence summarizing the root cause>
+> <Single blockquote sentence summarizing the possible cause>
 ```
 
 ### Section 3: System Information

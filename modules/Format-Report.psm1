@@ -732,7 +732,7 @@ function Build-ExecutiveSummary {
     $problemText = if ($problems.Count -gt 0) { $problems -join '; ' }
                    else { 'No critical or warning issues detected.' }
 
-    # Build root cause
+    # Build possible cause
     $rootCause = if ($criticals.Count -gt 0) {
         ($criticals | Select-Object -First 1).Message
     } elseif ($warnings.Count -gt 0) {
@@ -815,7 +815,7 @@ function Format-EtwReport {
     [void]$sb.AppendLine((New-TableRow @('Item', 'Details')))
     [void]$sb.AppendLine("|------|---------|")
     [void]$sb.AppendLine((New-TableRow @('**Problem**', $summary.Problem)))
-    [void]$sb.AppendLine((New-TableRow @('**Root Cause**', $summary.RootCause)))
+    [void]$sb.AppendLine((New-TableRow @('**Possible Cause**', $summary.RootCause)))
     [void]$sb.AppendLine((New-TableRow @('**Impact**', $summary.Impact)))
     [void]$sb.AppendLine((New-TableRow @('**Recommended Action**', $summary.Recommendation)))
     [void]$sb.AppendLine("")
@@ -823,10 +823,10 @@ function Format-EtwReport {
     [void]$sb.AppendLine("")
 
     # ══════════════════════════════════════════════
-    # 2. Root Cause (One-Line)
+    # 2. Possible Cause (One-Line)
     # ══════════════════════════════════════════════
     $sectionNum++
-    [void]$sb.AppendLine("## $sectionNum. Root Cause (One-Line)")
+    [void]$sb.AppendLine("## $sectionNum. Possible Cause (One-Line)")
     [void]$sb.AppendLine("")
     [void]$sb.AppendLine("> $($summary.RootCause)")
     [void]$sb.AppendLine("")
